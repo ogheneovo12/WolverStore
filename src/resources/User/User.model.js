@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
-import moment from "moment"
-const User = new mongoose.Schema({
+
+const userSchema = new mongoose.Schema({
     firstName:{type:String,trim:true,lowercase:true},
     lastName:{type:String,trim:true,lowercase:true},
     email:{type:String,trim:true,lowercase:true},
@@ -14,3 +14,5 @@ const User = new mongoose.Schema({
     tokens:{type:Boolean}
 
 })
+
+export default mongoose.model("User",userSchema)
