@@ -1,5 +1,5 @@
-import loadMongo from './loadMongo';
-import loadRoutes from './loadRoutes';
+import loadMongo from "./loadMongo";
+import loadRoutes from "./loadRoutes";
 
 /**
  * Executes all loaders. If an error occurs in one, the whole
@@ -10,6 +10,6 @@ import loadRoutes from './loadRoutes';
 export default function loadAll(app, config) {
   return Promise.all([
     loadMongo(app, config),
-    loadRoutes(app, config)
-  ]).then(() => console.log('System resources loaded'));
+    loadRoutes(app, config),
+  ]).then(() => console.log("System resources loaded"));
 }

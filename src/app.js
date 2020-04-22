@@ -1,8 +1,8 @@
-import express from 'express';
+import express from "express";
 
-import loadAll from './loaders';
-import * as config from './config';
-import { createError } from './utils/utils';
+import loadAll from "./loaders";
+import * as config from "./config";
+import { createError } from "./utils/utils";
 
 const app = express();
 

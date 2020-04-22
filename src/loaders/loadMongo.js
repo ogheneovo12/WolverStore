@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 /**
  * Mongoose Loader: establishes a connection to the remote
@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
  */
 
 export default function loadMongoose(app, config) {
- const connection = mongoose
+  const connection = mongoose
     .connect(config.dbURL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
