@@ -115,10 +115,12 @@ export default class UserController {
     }
   }
   static getUser(req, res, next) {
+    console.log(req.params);
     User.findOne({ _id: req.params.userId }).then(sendResponse).catch(next);
 
     function sendResponse(user) {
-      if (!user) {
+      console.log(user);
+      if (user) {
         res.status(statusCode.success).json({
           status: successMessage.status,
           data: [user.toJSON()],

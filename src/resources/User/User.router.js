@@ -7,7 +7,6 @@ import {
 } from "../../routes/middlewares/validateReq";
 import verifyAuth from "../../routes/middlewares/verifyAuth";
 const userRouter = Router();
-userRouter.get("/getuser/:all", userController.getUser);
 userRouter.get("/getuser/:userId", userController.getUser);
 userRouter.post("/signup", signUpValidator, userController.createUser);
 userRouter.post("/login", loginValidator, userController.login);
