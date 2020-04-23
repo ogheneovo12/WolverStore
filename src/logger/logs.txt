@@ -106,3 +106,4 @@ POST /api/users/login 200 609.673 ms
 POST /api/carts/create 500 10.712 ms
 POST /api/orders/create/5ea19e5d0730af0a50a71b59 401 2.018 ms
 POST /api/orders/create/5ea19e5d0730af0a50a71b59 201 37.081 ms
+POST /api/orders/create/5ea19e5d0730af0a50a71b59 500 26.385 ms
