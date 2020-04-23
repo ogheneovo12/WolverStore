@@ -3,9 +3,9 @@ const reviewSchema = new mongoose.Schema({
   productId: mongoose.Schema.Types.ObjectId,
   customer: {
     userId: { type: mongoose.Schema.Types.ObjectId },
-    firstName: { type: String, lowercase: true },
-    lastName: { type: String, lowercase: true },
-    phone: { type: String, lowercase: true },
+    firstname: { type: String, lowercase: true },
+    lastname: { type: String, lowercase: true },
+    phonenumber: { type: String, lowercase: true },
     email: { type: String, lowercase: true },
   },
   verified: { type: Boolean, default: false },
@@ -13,6 +13,14 @@ const reviewSchema = new mongoose.Schema({
   rating: {
     type: Number,
     required: true,
+    min: [
+      0,
+      "The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}).",
+    ],
+    max: [
+      5,
+      "The value of path `{PATH}` ({VALUE}) is above the limit ({MAX}).",
+    ],
   },
   store: {
     id: { type: mongoose.Schema.Types.ObjectId },

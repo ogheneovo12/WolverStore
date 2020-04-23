@@ -23,7 +23,7 @@ export default class reviewController {
       }
       const review = new Review({
         customer: req.user.toJSON(),
-        rating: req.body.rating,
+        rating: Math.floor(req.body.rating),
         store: store.toJSON(),
         comment: req.body.comment,
       });
@@ -39,7 +39,7 @@ export default class reviewController {
   }
   static async getreview(req, res, next) {
     try {
-      const review = await review.findOne({ _id: req.params.reviewId });
+      const review = await Review.findOne({ _id: req.params.reviewId });
       if (!review) {
         throw createError(statusCode.notfound, "review was not found");
       }

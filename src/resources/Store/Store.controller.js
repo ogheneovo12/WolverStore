@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import Store from "./Store.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
-
+import products from "../Product/Product.model";
+import ProductModel from "../Product/Product.model";
 export default class storeController {
   static async create(req, res, next) {
     try {
@@ -42,11 +43,21 @@ export default class storeController {
   }
   static async delete(req, res, next) {
     try {
+      const existingStore = await Store.findById({ _id: req.params.storeId });
+      if (!existingStore) {
+        throw createError(statusCode.notfound, "store was not found");
+      }
+      const products = await ProductModel.deleteMany({
+        storeId: existingStore._id,
+      });
+      if (!products) {
+        throw createError(statusCode.notfound, "store could not be deleted");
+      }
       const store = await Store.findByIdAndDelete({
         _id: req.params.storeId,
       });
       if (!store) {
-        throw createError(statusCode.notfound, "store was not deleted");
+        throw createError(statusCode.notfound, "store could not be deleted");
       }
       return res.status(statusCode.success).json({
         status: successMessage.status,
