@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import { setup } from "../routes/apiRoute";
 import { createError } from "../utils/utils";
 import { errorMessage } from "../utils/status";
+import logger from "../logger/logger";
 /**
  * Registers all api routes with the express app.
  * @param  {object} config The app config object
@@ -13,6 +14,7 @@ export default function loadRoutes(app, config) {
     app.use(cors());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    app.use(logger());
     app.use("/api", setup());
 
     app.use((err, req, res, next) => {

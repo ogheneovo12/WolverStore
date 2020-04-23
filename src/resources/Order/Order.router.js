@@ -6,7 +6,11 @@ const orderRouter = Router();
 
 orderRouter.get("/all", orderController.getAll);
 orderRouter.get("/get/:orderId", orderController.getorder);
-orderRouter.post("/create", [verifyAuth, verifyUser], orderController.create);
+orderRouter.post(
+  "/create/:storeId",
+  [verifyAuth, verifyUser],
+  orderController.create
+);
 orderRouter.put(
   "/update/:orderId",
   [verifyAuth, verifyUser],

@@ -13,7 +13,7 @@ export function setup() {
   apiRouter.use("/products", productRouter);
   apiRouter.use("/stores", storeRouter);
   // apiRouter.use('/cart', cartRouter);
-  apiRouter.use("/order", orderRouter);
+  apiRouter.use("/orders", orderRouter);
   // apiRouter.use('/review', reviewRouter);
 
   return apiRouter;

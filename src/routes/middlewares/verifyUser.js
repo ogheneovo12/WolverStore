@@ -1,17 +1,18 @@
 import User from "../../resources/User/User.model";
 
-export default function verifyAdmin(req, res, next) {
-  User.findOne({ _id: req.user.id }, { userType: "User" })
+export default function verifyUser(req, res, next) {
+  User.findOne({ $and: [{ email: req.user.id }, { userType: "admin" }] })
     .then(abortIfUserNotFound)
     .then(() => next())
     .catch(next);
 
   function abortIfUserNotFound(user) {
-    if (!user)
+    if (!user) {
       throw createError(
-        401,
-        "please create a user account to be able to view this task"
+        statusCode.unauthorized,
+        "Only admins can access this route"
       );
+    }
+    req.user = user;
   }
-  req.user = user;
 }

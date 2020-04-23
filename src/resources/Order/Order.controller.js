@@ -1,34 +1,55 @@
 import mongoose from "mongoose";
 import Order from "./Order.model";
+import Store from "../Store/Store.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
 
 export default class orderController {
-  static async create(req, res, next) {
-    try {
+  static create(req, res, next) {
+    getStore()
+      .then(checkIfStoreExist)
+      .then(getRefId)
+      .then(createOrder)
+      .then(handleResponse)
+      .catch(next);
+    function getStore() {
+      return Store.findOne({ _id: req.params.storeId });
+    }
+    function checkIfStoreExist(store) {
+      if (!store) {
+        throw createError(
+          statusCode.notfound,
+          "sorry, this order cant be placed, store does not exist"
+        );
+      }
+      return Promise.resolve(store);
+    }
+
+    function getRefId(store) {
+      const refid =
+        store.name.substr(0, 3) +
+        req.user.firstname.substr(0, 3) +
+        new Date().toLocaleDateString();
+      return Promise.resolve(refid);
+    }
+
+    function createOrder(refid) {
       const order = new Order({
-        refrenceId: getRefId(),
+        referenceId: refid,
         customer: req.user.toJSON(),
         shippingAddress: req.body.shippingAddress,
         paid: req.body.paid,
         items: req.body.items,
         amount: req.body.amount,
       });
-      function getRefId() {
-        return (
-          req.body.storeName.substr(0, 3) +
-          req.user.firstname.substr(0, 3) +
-          Date.now()
-        );
-      }
+      return order.save();
+    }
 
-      await order.save();
+    function handleResponse(order) {
       return res.status(statusCode.created).json({
         status: successMessage.status,
         message: "order was created",
       });
-    } catch (err) {
-      next(err);
     }
   }
   static async getorder(req, res, next) {
