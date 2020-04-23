@@ -21,4 +21,10 @@ const storeSchema = new mongoose.Schema({
   banner: { type: String, trim: true, lowercase: true },
 });
 
+storeSchema.methods.toJSON = function () {
+  return {
+    id: this._id,
+    name: this.name,
+  };
+};
 export default mongoose.model("Store", storeSchema);

@@ -14,7 +14,7 @@ export function setup() {
   apiRouter.use("/stores", storeRouter);
   apiRouter.use("/carts", cartRouter);
   apiRouter.use("/orders", orderRouter);
-  // apiRouter.use('/review', reviewRouter);
+  apiRouter.use("/reviews", reviewRouter);
 
   return apiRouter;
 }

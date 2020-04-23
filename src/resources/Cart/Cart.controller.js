@@ -6,10 +6,10 @@ import { successMessage, errorMessage, statusCode } from "../../utils/status";
 export default class cartController {
   static async create(req, res, next) {
     try {
-      const cart = new cart({
+      const cart = new Cart({
         userId: req.user._id,
-        products: req.body.items,
-        totalAmount: req.body.totalAmount,
+        items: req.body.items,
+        totalAmount: req.body.amount,
       });
 
       await cart.save();

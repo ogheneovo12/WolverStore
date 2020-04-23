@@ -2,11 +2,31 @@ import mongoose from "mongoose";
 import Review from "./Review.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
-
+import Product from "../Product/Product.model";
+import StoreModel from "../Store/Store.model";
 export default class reviewController {
   static async create(req, res, next) {
     try {
-      const review = new Review({});
+      const product = await Product.findOne({ _id: req.params.productId });
+      if (!product) {
+        throw createError(
+          statusCode.notfound,
+          "sorry product no longer exists, thanks for your effort for giving a review"
+        );
+      }
+      const store = await StoreModel.findOne({ _id: product.storeId });
+      if (!store) {
+        throw createError(
+          statusCode.notfound,
+          "sorry the store for this product no longer exists, thanks you"
+        );
+      }
+      const review = new Review({
+        customer: req.user.toJSON(),
+        rating: req.body.rating,
+        store: store.toJSON(),
+        comment: req.body.comment,
+      });
 
       await review.save();
       return res.status(statusCode.created).json({

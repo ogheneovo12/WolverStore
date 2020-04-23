@@ -8,12 +8,14 @@ const reviewSchema = new mongoose.Schema({
     phone: { type: String, lowercase: true },
     email: { type: String, lowercase: true },
   },
-  verified: { type: Boolean },
+  verified: { type: Boolean, default: false },
   dateCreated: { type: Date, default: Date.now() },
+  rating: Number,
   store: {
-    storeId: { type: mongoose.Schema.Types.ObjectId },
+    id: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String, lowercase: true },
   },
+  comment: String,
 });
 
 export default mongoose.model("Review", reviewSchema);

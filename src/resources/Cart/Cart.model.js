@@ -7,7 +7,7 @@ const cartSchema = new mongoose.Schema(
       ref: "User",
     },
     dateCreated: { type: Date, default: Date.now(), expires: "30m" },
-    products: [],
+    items: [],
     totalAmount: Number,
   },
   { timestamps: true }

@@ -11,7 +11,7 @@ export default function verifyUser(req, res, next) {
     if (!user) {
       throw createError(
         statusCode.unauthorized,
-        "Only admins can access this route"
+        "Only users can access this route, please create a user account"
       );
     }
     req.user = user;
