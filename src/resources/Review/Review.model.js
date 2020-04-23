@@ -10,7 +10,10 @@ const reviewSchema = new mongoose.Schema({
   },
   verified: { type: Boolean, default: false },
   dateCreated: { type: Date, default: Date.now() },
-  rating: Number,
+  rating: {
+    type: Number,
+    required: true,
+  },
   store: {
     id: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String, lowercase: true },

@@ -125,3 +125,11 @@ DELETE /api/carts/delete/5ea1fe7ad5d9132e30e112ef 200 12.760 ms
 POST /api/review/create 404 3.250 ms
 POST /api/reviews/create 404 0.557 ms
 POST /api/reviews/create 404 7.675 ms
+POST /api/reviews/create 404 11.158 ms
+POST /api/users/login 200 522.637 ms
+POST /api/reviews/create 401 9.182 ms
+POST /api/reviews/create 404 52.296 ms
+GET /api/products/all 200 12.140 ms
+POST /api/reviews/create/5ea1d0e08a0b792c44111e5b 404 3.115 ms
+POST /api/reviews/create/5ea1d0e08a0b792c44111e5b 404 0.875 ms
+POST /api/reviews/create/5ea1d0e08a0b792c44111e5b 201 280.839 ms

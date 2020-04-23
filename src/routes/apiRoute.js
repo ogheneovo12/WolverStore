@@ -4,6 +4,7 @@ import productRouter from "../resources/Product/Product.router";
 import storeRouter from "../resources/Store/Store.router";
 import orderRouter from "../resources/Order/Order.router";
 import cartRouter from "../resources/Cart/Cart.router";
+import reviewRouter from "../resources/Review/Review.router";
 export function setup() {
   const apiRouter = Router();
 
