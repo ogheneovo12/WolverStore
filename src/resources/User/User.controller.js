@@ -74,53 +74,80 @@ export default class UserController {
   }
   static upDateUser(req, res, next) {
     getUser()
-    .then(checkIfUpdateInfoAlreadyExists)
+      .then(checkIfUpdateInfoAlreadyExists)
       .then(update)
       .then(sendResponse)
-      .catch(err=>{
-        next(err)
+      .catch((err) => {
+        next(err);
       });
-      function getUser(){
-       
-        return User.find({email:req.user.id});
-      }
+    function getUser() {
+      return User.find({ email: req.user.id });
+    }
     function checkIfUpdateInfoAlreadyExists(user) {
-      console.log(req.body.email)
+      console.log(req.body.email);
       if (req.body.username || req.body.email) {
-        return User.find({email:req.body.email  });
+        return User.find({ email: req.body.email });
       }
     }
     const userid = req.params.id;
     async function update(existingUser) {
-      if (existingUser.length > 0) {
-        throw createError(statusCode.conflict, "user with this info already exists");
+      console.log("hey");
+      if (existingUser) {
+        throw createError(
+          statusCode.conflict,
+          "user with this info already exists"
+        );
       }
-      const user = await User.findOne({_id:req.params.id})
+      const user = await User.findOne({ _id: req.params.id });
       user.firstname = req.body.firstname || user.firstname;
       user.lastname = req.body.lastname || user.lastname;
       user.email = req.body.email || user.email;
       user.password = req.body.password || user.password;
       user.phonenumber = req.body.phonenumber || user.phonenumber;
-      return await user.save()
+      return await user.save();
     }
 
     function sendResponse() {
-     return res.status(statusCode.success).json({
+      return res.status(statusCode.success).json({
         status: successMessage.status,
         message: "User account was  updated",
       });
     }
   }
   static getUser(req, res, next) {
-    User.findOne({_id: req.params.userId })
+    User.findOne({ _id: req.params.userId }).then(sendResponse).catch(next);
+
+    function sendResponse(user) {
+      if (user) {
+        res.status(statusCode.success).json({
+          status: successMessage.status,
+          data: [user.toJSON()],
+        });
+      } else {
+        res.status(statusCode.notfound).json({
+          status: successMessage.status,
+          message: "user was not found",
+        });
+      }
+    }
+  }
+  static deletUser(req, res, next) {
+    User.findByIdAndDelete({ _id: req.params.id })
       .then(sendResponse)
       .catch(next);
 
     function sendResponse(user) {
-      res.status(statusCode.success).json({
-        status:successMessage.status,
-        data: [user.toJSON()]
-      });
+      if (user) {
+        res.status(statusCode.success).json({
+          status: successMessage.status,
+          message: "user deleted sucesfully",
+        });
+      } else {
+        res.status(statusCode.notfound).json({
+          status: successMessage.status,
+          message: "user was not found",
+        });
+      }
     }
   }
 }

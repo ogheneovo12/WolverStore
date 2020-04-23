@@ -7,7 +7,7 @@ export default class storeController {
   static async create(req, res, next) {
     try {
       const store = new Store({
-        userId: req.body.userId,
+        userId: req.admin._id,
         name: req.body.name,
         email: req.body.email,
         description: req.body.description,

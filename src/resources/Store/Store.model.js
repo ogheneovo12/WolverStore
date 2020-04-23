@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const storeSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId },
-  name: { type: String, trim: true, lowercase: true },
-  email: { type: String, trim: true, lowercase: true },
+  name: { type: String, trim: true, lowercase: true, required: true },
+  email: { type: String, trim: true, lowercase: true, required: true },
   description: { type: String, trim: true },
   dateCreated: { type: Date, default: Date.now() },
   verified: { type: Boolean, default: false },
@@ -15,9 +15,9 @@ const storeSchema = new mongoose.Schema({
     zipcode: { type: String },
     country: { type: String, lowercase: true },
   },
-  category: { type: String, trim: true, lowercase: true },
-  logo: { type: String, trim: true },
-  phone: { type: String, trim: true },
+  category: { type: String, trim: true, lowercase: true, required: true },
+  logo: { type: String, trim: true, required: true },
+  phone: { type: String, trim: true, required: true },
   banner: { type: String, trim: true, lowercase: true },
 });
 

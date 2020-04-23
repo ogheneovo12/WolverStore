@@ -6,7 +6,7 @@ const cartSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    dateCreated: { type: Date, default: Date.now() },
+    dateCreated: { type: Date, default: Date.now(), expires: "30m" },
     products: [],
     totalAmount: Number,
   },

@@ -8,7 +8,7 @@ export function setup() {
   const apiRouter = Router();
 
   // add api routes here
-  // apiRouter.use('/admin', adminRouter);
+
   apiRouter.use("/users", userRouter);
   apiRouter.use("/products", productRouter);
   apiRouter.use("/stores", storeRouter);

@@ -1,13 +1,20 @@
-// import User from '../db/admin/admin.model';
+import User from "../../resources/User/User.model";
+import { createError } from "../../utils/utils";
+import { statusCode } from "../../utils/status";
+export default function verifyAdmin(req, res, next) {
+  User.findOne({ $and: [{ email: req.user.id }, { userType: "admin" }] })
+    .then(abortIfUserNotFound)
+    .then(() => next())
+    .catch(next);
 
-// export default function verifyAdmin(req, res, next) {
-//   Admin.findOne({ _id: req.user.id })
-//     .then(abortIfUserNotFound)
-//     .then(() => next())
-//     .catch(next);
-
-//   function abortIfUserNotFound(admin) {
-//     if (!admin)
-//       throw createError(401, 'Only admins can access this route');
-//   }
-// }
+  function abortIfUserNotFound(admin) {
+    console.log(admin);
+    if (!admin) {
+      throw createError(
+        statusCode.unauthorized,
+        "Only admins can access this route"
+      );
+    }
+    req.admin = admin;
+  }
+}

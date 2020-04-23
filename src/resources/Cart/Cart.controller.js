@@ -7,7 +7,7 @@ export default class cartController {
   static async create(req, res, next) {
     try {
       const cart = new cart({
-        userId: req.body.userId,
+        userId: req.user._id,
         products: req.body.items,
         totalAmount: req.body.totalAmount,
       });

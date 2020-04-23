@@ -36,7 +36,9 @@ export default function validator(arr, expose) {
     if (!regexp.test(password)) {
       error +=
         "Password must contain at least one letter, at least one number, and be longer than six charaters, ";
+      return false;
     }
+    return true;
   };
 
   /**

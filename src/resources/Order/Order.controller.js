@@ -7,14 +7,20 @@ export default class orderController {
   static async create(req, res, next) {
     try {
       const order = new Order({
-        refrenceId: getRefId,
-        customer: req.body.customer,
+        refrenceId: getRefId(),
+        customer: req.user.toJSON(),
         shippingAddress: req.body.shippingAddress,
-        status: req.body.status,
         paid: req.body.paid,
         items: req.body.items,
         amount: req.body.amount,
       });
+      function getRefId() {
+        return (
+          req.body.storeName.substr(0, 3) +
+          req.user.firstname.substr(0, 3) +
+          Date.now()
+        );
+      }
 
       await order.save();
       return res.status(statusCode.created).json({
