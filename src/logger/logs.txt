@@ -96,3 +96,13 @@ GET /api/orders/get/5ea1d0e08a0b792c44111e5b 404 3.120 ms
 GET /api/orders/get/5ea1d0e08a0b792c44111e5b 404 3.964 ms
 GET /api/orders/all 200 5.872 ms
 GET /api/orders/get/5ea1f682ccd8c62074a5172c 200 3.651 ms
+GET /api/cart/create 404 7.985 ms
+POST /api/cart/create 404 0.898 ms
+POST /api/carts/create 404 0.569 ms
+POST /api/carts/create 404 7.994 ms
+POST /api/carts/create 404 10.648 ms
+POST /api/carts/create 401 5.959 ms
+POST /api/users/login 200 609.673 ms
+POST /api/carts/create 500 10.712 ms
+POST /api/orders/create/5ea19e5d0730af0a50a71b59 401 2.018 ms
+POST /api/orders/create/5ea19e5d0730af0a50a71b59 201 37.081 ms

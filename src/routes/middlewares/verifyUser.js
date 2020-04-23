@@ -1,7 +1,7 @@
 import User from "../../resources/User/User.model";
 
 export default function verifyUser(req, res, next) {
-  User.findOne({ $and: [{ email: req.user.id }, { userType: "admin" }] })
+  User.findOne({ $and: [{ email: req.user.id }, { userType: "user" }] })
     .then(abortIfUserNotFound)
     .then(() => next())
     .catch(next);
