@@ -26,4 +26,18 @@ const orderSchema = new mongoose.Schema({
   items: [],
   Amount: { type: Number },
 });
+orderSchema.toJSON = function () {
+  return {
+    _id: this._id,
+    referenceId: this.referenceId,
+    customer: this.customer.firstname + " " + this.customer.lastname,
+    shippingAddress: this.shippingAddress,
+    status: this.status,
+    amount: this.amount,
+    items: this.items,
+    paid: this.paid,
+    ordered: moment(this.dateCreated).startOf("hour").fromNow(),
+    date: moment(this.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
+  };
+};
 export default mongoose.model("Order", orderSchema);

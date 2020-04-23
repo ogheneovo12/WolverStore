@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
 });
 productSchema.methods.toJson = function () {
   return {
-    id: this._id,
+    _id: this._id,
     name: this.name,
     variations: this.variations,
     storeId: this.storeId,
@@ -29,7 +29,8 @@ productSchema.methods.toJson = function () {
     category: this.category,
     description: this.description,
     available: this.inStock,
-    dayListed: moment(this.dateCreated),
+    Listed: moment(this.dateCreated).startOf("hour").fromNow(),
+    dateListed: moment(this.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
   };
 };
 export default mongoose.model("Product", productSchema);

@@ -117,7 +117,11 @@ export default class UserController {
     }
   }
   static getUser(req, res, next) {
-    User.findOne({ _id: req.params.userId }).then(sendResponse).catch(next);
+    User.findOne({
+      $or: [{ _id: req.params.userId }, { email: req.params.userId }],
+    })
+      .then(sendResponse)
+      .catch(next);
 
     function sendResponse(user) {
       if (user) {

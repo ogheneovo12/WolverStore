@@ -23,7 +23,7 @@ const storeSchema = new mongoose.Schema({
 
 storeSchema.methods.toJSON = function () {
   return {
-    id: this._id,
+    _id: this._id,
     name: this.name,
     address: this.address,
     createdAt: moment(this.dateCreated).startOf("hour").fromNow(),

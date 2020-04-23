@@ -2,10 +2,14 @@ import mongoose from "mongoose";
 import Product from "./Product.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
-
+import Store from "../Store/Store.model";
 export default class productController {
   static async create(req, res, next) {
     try {
+      const store = await Store.findOne({ _id: req.body.storeId });
+      if (!store) {
+        throw createError(statusCode.notfound, "sorry store isn't available");
+      }
       const product = new Product({
         storeId: req.body.storeId,
         name: req.body.name,
@@ -84,3 +88,4 @@ export default class productController {
     }
   }
 }
+Product.deleteMany({});

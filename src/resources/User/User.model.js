@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createError } from "../../utils/utils";
 import { statusCode } from "../../utils/status";
-
+import moment from "moment";
 const userSchema = new mongoose.Schema({
   firstname: { type: String, trim: true, lowercase: true, required: true },
   lastname: { type: String, trim: true, lowercase: true, required: true },
@@ -52,11 +52,13 @@ userSchema.statics.getByValidCredentials = async function (username, password) {
 //convert user details to json
 userSchema.methods.toJSON = function () {
   return {
-    id: this._id,
+    _id: this._id,
     firstname: this.firstname,
     lastname: this.lastname,
     email: this.email,
     phonenumber: this.phonenumber,
+    joined: moment(this.dateCreated).startOf("hour").fromNow(),
+    joinedDate: moment(this.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
   };
 };
 export default mongoose.model("User", userSchema);

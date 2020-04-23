@@ -91,7 +91,10 @@ export default class storeController {
       const stores = await Store.find({});
       return res
         .status(statusCode.success)
-        .json({ status: successMessage.status, data: stores });
+        .json({
+          status: successMessage.status,
+          data: stores.map((store) => store.toJSON()),
+        });
     } catch (err) {
       next(err);
     }

@@ -74,7 +74,10 @@ export default class cartController {
       const carts = await Cart.find({});
       return res
         .status(statusCode.success)
-        .json({ status: successMessage.status, data: carts });
+        .json({
+          status: successMessage.status,
+          data: carts.map((cart) => cart.toJSON()),
+        });
     } catch (err) {
       next(err);
     }

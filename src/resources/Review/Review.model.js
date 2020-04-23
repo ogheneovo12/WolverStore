@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import moment from "moment";
 const reviewSchema = new mongoose.Schema({
   productId: mongoose.Schema.Types.ObjectId,
   customer: {
@@ -28,5 +29,14 @@ const reviewSchema = new mongoose.Schema({
   },
   comment: String,
 });
-
+reviewSchema.methods.toJSON = function () {
+  return {
+    _id: this._id,
+    customer: this.firstname + this.lastname,
+    rating: this.rating,
+    comment: this.comment,
+    reviewed: moment(this.dateCreated).startOf("hour").fromNow(),
+    reviewDate: moment(this.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
+  };
+};
 export default mongoose.model("Review", reviewSchema);
