@@ -5,7 +5,7 @@ import verifyAdmin from "../../routes/middlewares/verifyAdmin";
 const storeRouter = Router();
 
 storeRouter.get("/all", storeController.getAll);
-storeRouter.get("/get/:storeId", storeController.getstore);
+storeRouter.get("/get/:storeId", storeController.getStore);
 storeRouter.post("/create", [verifyAuth, verifyAdmin], storeController.create);
 storeRouter.put(
   "/update/:storeId",

@@ -27,7 +27,7 @@ export default class storeController {
       next(err);
     }
   }
-  static async getstore(req, res, next) {
+  static async getStore(req, res, next) {
     try {
       const store = await Store.findOne({ _id: req.params.storeId });
       if (!store) {

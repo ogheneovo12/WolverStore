@@ -3,6 +3,10 @@ import User from "./User.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
 import bcrypt from "bcrypt";
+
+import Stores from "../Store/Store.model";
+import Product from "../Product/Product.model";
+
 export default class UserController {
   static createUser(req, res, next) {
     getExistingUser()
@@ -84,14 +88,12 @@ export default class UserController {
       return User.find({ email: req.user.id });
     }
     function checkIfUpdateInfoAlreadyExists(user) {
-      console.log(req.body.email);
       if (req.body.username || req.body.email) {
         return User.find({ email: req.body.email });
       }
     }
     const userid = req.params.id;
     async function update(existingUser) {
-      console.log("hey");
       if (existingUser) {
         throw createError(
           statusCode.conflict,
@@ -115,11 +117,9 @@ export default class UserController {
     }
   }
   static getUser(req, res, next) {
-    console.log(req.params);
     User.findOne({ _id: req.params.userId }).then(sendResponse).catch(next);
 
     function sendResponse(user) {
-      console.log(user);
       if (user) {
         res.status(statusCode.success).json({
           status: successMessage.status,
@@ -134,20 +134,33 @@ export default class UserController {
     }
   }
   static deletUser(req, res, next) {
-    User.findByIdAndDelete({ _id: req.params.id })
+    User.findById({ _id: req.params.id })
+      .then(checkIfUserExists)
+      .then(deleteUserStores)
+      .then(deleteUser)
       .then(sendResponse)
       .catch(next);
-
+    function checkIfUserExists(user) {
+      if (!user) {
+        res.status(statusCode.notfound).json({
+          status: successMessage.status,
+          message: "user was not found",
+        });
+      }
+      return user;
+    }
+    function deleteUserStores(user) {
+      Stores.deleteMany({ userId: user._id });
+      return user;
+    }
+    function deleteUser(user) {
+      return User.findByIdAndDelete({ _id: user._id });
+    }
     function sendResponse(user) {
       if (user) {
         res.status(statusCode.success).json({
           status: successMessage.status,
           message: "user deleted sucesfully",
-        });
-      } else {
-        res.status(statusCode.notfound).json({
-          status: successMessage.status,
-          message: "user was not found",
         });
       }
     }

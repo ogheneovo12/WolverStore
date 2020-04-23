@@ -8,7 +8,6 @@ export default function verifyAdmin(req, res, next) {
     .catch(next);
 
   function abortIfUserNotFound(admin) {
-    console.log(admin);
     if (!admin) {
       throw createError(
         statusCode.unauthorized,

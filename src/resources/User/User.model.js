@@ -50,13 +50,13 @@ userSchema.statics.getByValidCredentials = async function (username, password) {
   return Promise.resolve(user);
 };
 //convert user details to json
-userSchema.methods.toJSON = function(){
+userSchema.methods.toJSON = function () {
   return {
-    id:this._id,
-    firstname:this.firstname,
-    lastname:this.lastname,
-    email:this.email,
-    phonenumber:this.phonenumber
-  }
-}
+    id: this._id,
+    firstname: this.firstname,
+    lastname: this.lastname,
+    email: this.email,
+    phonenumber: this.phonenumber,
+  };
+};
 export default mongoose.model("User", userSchema);
