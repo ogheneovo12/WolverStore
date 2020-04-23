@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
     phone: { type: String },
     email: { type: String },
   },
-  date: { type: Date },
+  date: { type: Date, default: Date.now() },
   shippingAddress: {
     street: { type: String },
     state: { type: String },
@@ -23,11 +23,6 @@ const orderSchema = new mongoose.Schema({
   },
   status: { type: String },
   paid: { type: Boolean },
-  items: [
-    {
-      cartId: { type: mongoose.Schema.Types.ObjectId },
-      ref: "cart",
-    },
-  ],
+  items: [],
   Amount: { type: Number },
 });

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User from "./User.model";
 import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
-
+import bcrypt from "bcrypt";
 export default class UserController {
   static createUser(req, res, next) {
     getExistingUser()
@@ -27,7 +27,7 @@ export default class UserController {
     }
 
     function handleResponse(user) {
-      res.status(statusCode.success).json({
+      res.status(statusCode.created).json({
         status: successMessage.status,
         message: "user account created",
       });
@@ -41,21 +41,28 @@ export default class UserController {
       .catch(next);
 
     function getValidUser() {
-      return User.getByValidCredentials(req.body.username, req.body.password);
+      return User.getByValidCredentials(req.body.email, req.body.password);
     }
 
     function checkIfUserExists(user) {
-      if (!user)
+      if (!user) {
         throw createError(statusCode.notfound, "Account was not found");
+      }
+
       return user;
     }
+
     function generateUserToken(user) {
+      const day = new Date();
+      user.lastLogin = `${day.getDate()}-${
+        day.getMonth() + 1
+      }-${day.getFullYear()}-${day.toLocaleTimeString()}`;
       return user.generateAuthToken();
     }
     function sendResponse({ user, token }) {
       res.status(statusCode.success).json({
-        status: successMessage,
-        message: "Employee logged in",
+        status: successMessage.status,
+        message: "User is logged in",
         data: [
           {
             token,
@@ -66,6 +73,54 @@ export default class UserController {
     }
   }
   static upDateUser(req, res, next) {
-    user = req.user;
+    getUser()
+    .then(checkIfUpdateInfoAlreadyExists)
+      .then(update)
+      .then(sendResponse)
+      .catch(err=>{
+        next(err)
+      });
+      function getUser(){
+       
+        return User.find({email:req.user.id});
+      }
+    function checkIfUpdateInfoAlreadyExists(user) {
+      console.log(req.body.email)
+      if (req.body.username || req.body.email) {
+        return User.find({email:req.body.email  });
+      }
+    }
+    const userid = req.params.id;
+    async function update(existingUser) {
+      if (existingUser.length > 0) {
+        throw createError(statusCode.conflict, "user with this info already exists");
+      }
+      const user = await User.findOne({_id:req.params.id})
+      user.firstname = req.body.firstname || user.firstname;
+      user.lastname = req.body.lastname || user.lastname;
+      user.email = req.body.email || user.email;
+      user.password = req.body.password || user.password;
+      user.phonenumber = req.body.phonenumber || user.phonenumber;
+      return await user.save()
+    }
+
+    function sendResponse() {
+     return res.status(statusCode.success).json({
+        status: successMessage.status,
+        message: "User account was  updated",
+      });
+    }
+  }
+  static getUser(req, res, next) {
+    User.findOne({_id: req.params.userId })
+      .then(sendResponse)
+      .catch(next);
+
+    function sendResponse(user) {
+      res.status(statusCode.success).json({
+        status:successMessage.status,
+        data: [user.toJSON()]
+      });
+    }
   }
 }

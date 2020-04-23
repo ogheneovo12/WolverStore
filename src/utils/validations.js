@@ -17,7 +17,6 @@ export default function validator(arr, expose) {
    */
   const validateEmail = (email /*string*/) => {
     const regexp = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-    console.log(email);
     if (!regexp.test(email)) {
       error += "invalid email format, ";
       return false;
@@ -33,7 +32,7 @@ export default function validator(arr, expose) {
    */
   const validatePassword = (password /*string*/) => {
     /**Password must contain at least one letter, at least one number, and be longer than six charaters */
-    const regexp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const regexp = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (!regexp.test(password)) {
       error +=
         "Password must contain at least one letter, at least one number, and be longer than six charaters, ";
@@ -71,7 +70,7 @@ export default function validator(arr, expose) {
   /**
    * delegate methods if @param arr is passed
    */
-  if (arr || arr.length > 0) {
+  if (arr) {
     arr.forEach(({ type, value, optional }) => {
       switch (type) {
         case "password":

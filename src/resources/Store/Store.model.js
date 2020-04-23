@@ -6,8 +6,8 @@ const storeSchema = new mongoose.Schema({
   email: { type: String, trim: true, lowercase: true },
   description: { type: String, trim: true },
   dateCreated: { type: Date, default: Date.now() },
-  verified: { type: Boolean },
-  suspended: { type: Boolean },
+  verified: { type: Boolean, default: false },
+  suspended: { type: Boolean, default: false },
   address: {
     street: { type: String, lowercase: true },
     state: { type: String, lowercase: true },
@@ -18,8 +18,7 @@ const storeSchema = new mongoose.Schema({
   category: { type: String, trim: true, lowercase: true },
   logo: { type: String, trim: true },
   phone: { type: String, trim: true },
-  banner: { type: String, trim: true },
-  lowercase: true,
+  banner: { type: String, trim: true, lowercase: true },
 });
 
 export default mongoose.model("Store", storeSchema);

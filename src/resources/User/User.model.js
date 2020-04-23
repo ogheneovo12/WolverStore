@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import * as CONFIG from "../../config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { createError } from "../../utils/utils";
+import { statusCode } from "../../utils/status";
+
 const userSchema = new mongoose.Schema({
   firstname: { type: String, trim: true, lowercase: true, required: true },
   lastname: { type: String, trim: true, lowercase: true, required: true },
@@ -27,25 +30,33 @@ userSchema.pre("save", async function (next) {
 });
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ _id: this.email }, CONFIG.jwtSecret, {
-    expiresIn: this.tokenLife,
+    expiresIn: 30 * 60,
   });
   this.tokens = this.tokens.concat({ token });
-  const user = this.save();
-  return Promise.resolve({ token, user });
+  const user = await this.save();
+  return Promise.resolve({ user, token });
 };
-userSchema.statics.getByValidCredentials = async (username, password) => {
-  const user = await User.findOne({
+userSchema.statics.getByValidCredentials = async function (username, password) {
+  const user = await this.findOne({
     $or: [{ email: username }, { name: username }],
   });
   if (!user) {
-    throw "user not found, please signup or check login details";
+    throw createError(statusCode.notfound, "Account was not found");
   }
   const passwordVerify = await bcrypt.compare(password, user.password);
   if (!passwordVerify) {
-    throw "password is invalid";
+    throw createError(statusCode.conflict, "The password doesn't match");
   }
   return Promise.resolve(user);
 };
 //convert user details to json
-
+userSchema.methods.toJSON = function(){
+  return {
+    id:this._id,
+    firstname:this.firstname,
+    lastname:this.lastname,
+    email:this.email,
+    phonenumber:this.phonenumber
+  }
+}
 export default mongoose.model("User", userSchema);

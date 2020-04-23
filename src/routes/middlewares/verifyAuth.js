@@ -14,9 +14,13 @@ export default function verifyAuth(req, res, next) {
   }
 
   jwt.verify(token, jwtSecret, (err, decoded) => {
-    if (err)
-      return next(err);
-    req.user = { id: decoded.id };
+    if (err){
+      if (err.message.startsWith("jwt")) {
+        err.message = err.message.replace("jwt", "token");
+      }
+      return next(createError(statusCode.unauthorized,err.message));
+    }
+    req.user = { id: decoded._id };
     next();
   });
 }
