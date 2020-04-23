@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import moment from "moment";
 const storeSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId },
   name: { type: String, trim: true, lowercase: true, required: true },
@@ -25,6 +25,11 @@ storeSchema.methods.toJSON = function () {
   return {
     id: this._id,
     name: this.name,
+    address: this.address,
+    createdAt: moment(this.dateCreated).startOf("hour").fromNow(),
+    dateCreated: moment(this.dateCreated).format("MMMM Do YYYY, h:mm:ss a"),
+    phone: this.phone,
+    description: this.description,
   };
 };
 export default mongoose.model("Store", storeSchema);
