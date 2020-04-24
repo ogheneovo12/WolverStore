@@ -22,7 +22,16 @@ const userSchema = new mongoose.Schema({
   lastLogin: { type: String, default: "never" },
   verified: { type: Boolean, default: false },
   addresses: { type: Array, default: [] },
-  tokens: [{ token: { type: String, required: true } }],
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+        createdAt: Date.now,
+        expire: "30min",
+      },
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

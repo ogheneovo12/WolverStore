@@ -9,6 +9,7 @@ import verifyAuth from "../../routes/middlewares/verifyAuth";
 const userRouter = Router();
 userRouter.get("/getuser/:userId", userController.getUser);
 userRouter.post("/signup", signUpValidator, userController.createUser);
+userRouter.post("/adminsignup", signUpValidator, userController.createAdmin);
 userRouter.post("/login", loginValidator, userController.login);
 userRouter.put(
   "/update/:id",

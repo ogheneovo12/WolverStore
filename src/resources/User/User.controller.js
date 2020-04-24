@@ -37,6 +37,37 @@ export default class UserController {
       });
     }
   }
+  static createAdmin(req, res, next) {
+    getExistingAdmin()
+      .then(abortIfAdminExists)
+      .then(createNewAdmin)
+      .then(saveAdmin)
+      .then(handleResponse)
+      .catch(next);
+
+    function getExistingAdmin() {
+      return User.findOne({ email: req.body.email });
+    }
+    function abortIfAdminExists(user) {
+      if (user)
+        throw createError(statusCode.conflict, "credentials already exists");
+    }
+    function createNewAdmin() {
+      const userObj = { ...req.body };
+      userObj.userType = "admin";
+      return new User(userObj);
+    }
+    function saveAdmin(user) {
+      return user.save();
+    }
+
+    function handleResponse(user) {
+      res.status(statusCode.created).json({
+        status: successMessage.status,
+        message: "user account created",
+      });
+    }
+  }
   static login(req, res, next) {
     getValidUser()
       .then(checkIfUserExists)
