@@ -23,7 +23,7 @@ export default class cartController {
   }
   static async getcart(req, res, next) {
     try {
-      const cart = await Cart.Cart.findOne({
+      const cart = await Cart.findOne({
         $and: [{ _id: req.params.cartId }, { userId: req.user._id }],
       });
       if (!cart) {
