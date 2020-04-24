@@ -321,3 +321,5 @@ POST /api/users/login 404 1093.024 ms
 POST /api/users/login 404 186.198 ms
 POST /api/users/login 404 2568.671 ms
 POST /api/users/login 404 1573.931 ms
+POST /api/users/login 200 509.473 ms
+GET /api/reviews/all 200 30.794 ms
