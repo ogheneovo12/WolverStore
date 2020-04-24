@@ -332,3 +332,9 @@ POST /api/users/adminsignup 201 545.981 ms
 POST /api/users/login 200 469.556 ms
 POST /api/users/login 404 21.448 ms
 POST /api/users/adminsignup 201 456.979 ms
+GET /api/users/getuser/5ea072b4c3a4cc12945a714f 404 22.850 ms
+POST /api/users/signup 201 479.518 ms
+POST /api/users/login 200 533.586 ms
+POST /api/users/adminsignup 201 419.641 ms
+POST /api/users/login 200 443.742 ms
+POST /api/users/adminsignup 201 447.450 ms

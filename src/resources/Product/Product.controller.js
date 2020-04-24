@@ -18,6 +18,7 @@ export default class productController {
         description: req.body.description,
         variations: req.body.variations,
         category: req.body.category,
+        image: req.file.path,
       });
 
       await product.save();
