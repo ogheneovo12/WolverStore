@@ -40,9 +40,7 @@ export default class reviewController {
   }
   static async getreview(req, res, next) {
     try {
-      const review = await Review.findOne({
-        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
-      });
+      const review = await Review.findOne({ _id: req.params.reviewId });
       if (!review) {
         throw createError(statusCode.notfound, "review was not found");
       }
@@ -55,12 +53,6 @@ export default class reviewController {
   }
   static async delete(req, res, next) {
     try {
-      const getUserReview = await Review.findOne({
-        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
-      });
-      if (!getUserReview) {
-        throw createError(statusCode.notfound, "review was not found");
-      }
       const review = await Review.findByIdAndDelete({
         _id: req.params.reviewId,
       });
@@ -78,12 +70,6 @@ export default class reviewController {
   }
   static async update(req, res, next) {
     try {
-      const getUserReview = await Review.findOne({
-        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
-      });
-      if (!getUserReview) {
-        throw createError(statusCode.notfound, "review was not found");
-      }
       const review = await Review.findByIdAndUpdate(
         { _id: req.params.reviewId },
         { ...req.body }
@@ -102,7 +88,7 @@ export default class reviewController {
   }
   static async getAll(req, res, next) {
     try {
-      const reviews = await Review.find({ userId: req.user._id });
+      const reviews = await Review.find({});
       return res
         .status(statusCode.success)
         .json({ status: successMessage.status, data: reviews });

@@ -303,3 +303,14 @@ DELETE /api/carts/removeitem/5ea241ecda55e31dd0a6d8bb 404 48.564 ms
 DELETE /api/carts/removeitem/5ea241ecda55e31dd0a6d8bb 404 89.527 ms
 GET /api/carts/all 200 32.799 ms
 DELETE /api/carts/removeitem/5ea241ecda55e31dd0a6d8bb 200 61.256 ms
+POST /api/users/signup 400 4.926 ms
+POST /api/users/signup 201 423.982 ms
+GET /api/orders/get/5ea1f682ccd8c62074a5172c 401 10.484 ms
+POST /api/reviews/create/5ea2199869087c17c8dd9aa8 401 1.561 ms
+POST /api/users/login 200 527.343 ms
+POST /api/reviews/create/5ea2199869087c17c8dd9aa8 404 17.708 ms
+GET /api/products/get/5ea21dbad8239d40fce71924 200 6.857 ms
+POST /api/reviews/create/5ea21dbad8239d40fce71924 201 51.550 ms
+GET /api/reviews/all 404 1.303 ms
+GET /api/reviews/all 200 10.588 ms
+GET /api/reviews/all 200 9.277 ms
