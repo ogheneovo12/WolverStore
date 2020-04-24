@@ -1,5 +1,5 @@
 import Router from "express";
-import cartController from "./cart.controller";
+import cartController from "./Cart.controller";
 import verifyAuth from "../../routes/middlewares/verifyAuth";
 import verifyUser from "../../routes/middlewares/verifyUser";
 const cartRouter = Router();

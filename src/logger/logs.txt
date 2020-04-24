@@ -314,3 +314,4 @@ POST /api/reviews/create/5ea21dbad8239d40fce71924 201 51.550 ms
 GET /api/reviews/all 404 1.303 ms
 GET /api/reviews/all 200 10.588 ms
 GET /api/reviews/all 200 9.277 ms
+GET /api/reviews/all 200 50.528 ms
