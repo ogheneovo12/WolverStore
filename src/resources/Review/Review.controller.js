@@ -12,7 +12,7 @@ export default class reviewController {
       if (!product) {
         throw createError(
           statusCode.notfound,
-          "sorry product no longer exists, thanks for your effort for giving a review"
+          "sorry product no longer exists, thanks for your effort for giving a review thanks"
         );
       }
       const store = await StoreModel.findOne({ _id: product.storeId });
