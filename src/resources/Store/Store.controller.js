@@ -43,7 +43,9 @@ export default class storeController {
   }
   static async delete(req, res, next) {
     try {
-      const existingStore = await Store.findById({ _id: req.params.storeId });
+      const existingStore = awaitStore.findOne({
+        $and: [{ _id: req.params.storeId }, { userId: req.admin._id }],
+      });
       if (!existingStore) {
         throw createError(statusCode.notfound, "store was not found");
       }
@@ -70,6 +72,12 @@ export default class storeController {
   }
   static async update(req, res, next) {
     try {
+      const existingStore = awaitStore.findOne({
+        $and: [{ _id: req.params.storeId }, { userId: req.admin._id }],
+      });
+      if (!existingStore) {
+        throw createError(statusCode.notfound, "store was not found");
+      }
       const store = await Store.findByIdAndUpdate(
         { _id: req.params.storeId },
         { ...req.body }
@@ -89,12 +97,10 @@ export default class storeController {
   static async getAll(req, res, next) {
     try {
       const stores = await Store.find({});
-      return res
-        .status(statusCode.success)
-        .json({
-          status: successMessage.status,
-          data: stores.map((store) => store.toJSON()),
-        });
+      return res.status(statusCode.success).json({
+        status: successMessage.status,
+        data: stores.map((store) => store.toJSON()),
+      });
     } catch (err) {
       next(err);
     }

@@ -88,4 +88,3 @@ export default class productController {
     }
   }
 }
-Product.deleteMany({});

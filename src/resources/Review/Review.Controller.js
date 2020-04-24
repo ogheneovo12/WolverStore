@@ -4,6 +4,7 @@ import { createError } from "../../utils/utils";
 import { successMessage, errorMessage, statusCode } from "../../utils/status";
 import Product from "../Product/Product.model";
 import StoreModel from "../Store/Store.model";
+
 export default class reviewController {
   static async create(req, res, next) {
     try {
@@ -39,7 +40,9 @@ export default class reviewController {
   }
   static async getreview(req, res, next) {
     try {
-      const review = await Review.findOne({ _id: req.params.reviewId });
+      const review = await Review.findOne({
+        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
+      });
       if (!review) {
         throw createError(statusCode.notfound, "review was not found");
       }
@@ -52,6 +55,12 @@ export default class reviewController {
   }
   static async delete(req, res, next) {
     try {
+      const getUserReview = await Review.findOne({
+        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
+      });
+      if (!getUserReview) {
+        throw createError(statusCode.notfound, "review was not found");
+      }
       const review = await Review.findByIdAndDelete({
         _id: req.params.reviewId,
       });
@@ -69,6 +78,12 @@ export default class reviewController {
   }
   static async update(req, res, next) {
     try {
+      const getUserReview = await Review.findOne({
+        $and: [{ _id: req.params.reviewId }, { userId: req.user._id }],
+      });
+      if (!getUserReview) {
+        throw createError(statusCode.notfound, "review was not found");
+      }
       const review = await Review.findByIdAndUpdate(
         { _id: req.params.reviewId },
         { ...req.body }
@@ -87,7 +102,7 @@ export default class reviewController {
   }
   static async getAll(req, res, next) {
     try {
-      const reviews = await Review.find({});
+      const reviews = await Review.find({ userId: req.user._id });
       return res
         .status(statusCode.success)
         .json({ status: successMessage.status, data: reviews });

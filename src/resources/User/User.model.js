@@ -8,7 +8,13 @@ import moment from "moment";
 const userSchema = new mongoose.Schema({
   firstname: { type: String, trim: true, lowercase: true, required: true },
   lastname: { type: String, trim: true, lowercase: true, required: true },
-  email: { type: String, trim: true, lowercase: true, required: true },
+  email: {
+    type: String,
+    unique: true,
+    trim: true,
+    lowercase: true,
+    required: true,
+  },
   phonenumber: { type: String, trim: true },
   password: { type: String, trim: true, required: true },
   userType: { type: String, trim: true, default: "user" },
@@ -38,7 +44,7 @@ userSchema.methods.generateAuthToken = async function () {
 };
 userSchema.statics.getByValidCredentials = async function (username, password) {
   const user = await this.findOne({
-    $or: [{ email: username }, { name: username }],
+    $or: [{ email: username }],
   });
   if (!user) {
     throw createError(statusCode.notfound, "Account was not found");

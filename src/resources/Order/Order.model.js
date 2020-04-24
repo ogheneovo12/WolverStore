@@ -15,16 +15,16 @@ const orderSchema = new mongoose.Schema({
   },
   date: { type: Date, default: Date.now() },
   shippingAddress: {
-    street: { type: String, required: true },
-    state: { type: String, required: true },
-    city: { type: String, required: true },
-    zipcode: { type: String, required: true },
-    country: { type: String, required: true },
+    street: { type: String, required: [true, "`{PATH}` is required"] },
+    state: { type: String, required: [true, "`{PATH}` is required"] },
+    city: { type: String, required: [true, "`{PATH}` is required"] },
+    zipcode: { type: String, required: [true, "`{PATH}` is required"] },
+    country: { type: String, required: [true, "`{PATH}` is required"] },
   },
   status: { type: String },
   paid: { type: Boolean },
-  items: [],
-  Amount: { type: Number },
+  items: { type: Array, required: [true, "please add an item to your order"] },
+  Amount: { type: Number, rerequired: [true, "Order needs an amont"] },
 });
 orderSchema.toJSON = function () {
   return {

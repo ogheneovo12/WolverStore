@@ -2,8 +2,20 @@ import mongoose from "mongoose";
 import moment from "moment";
 const storeSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId },
-  name: { type: String, trim: true, lowercase: true, required: true },
-  email: { type: String, trim: true, lowercase: true, required: true },
+  name: {
+    type: String,
+    unique: true,
+    trim: true,
+    lowercase: true,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    trim: true,
+    lowercase: true,
+    required: true,
+  },
   description: { type: String, trim: true },
   dateCreated: { type: Date, default: Date.now() },
   verified: { type: Boolean, default: false },
@@ -24,6 +36,7 @@ const storeSchema = new mongoose.Schema({
 storeSchema.methods.toJSON = function () {
   return {
     _id: this._id,
+    userId: this.userId,
     name: this.name,
     address: this.address,
     createdAt: moment(this.dateCreated).startOf("hour").fromNow(),

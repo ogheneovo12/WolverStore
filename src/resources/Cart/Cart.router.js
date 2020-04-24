@@ -8,9 +8,14 @@ cartRouter.get("/all", cartController.getAll);
 cartRouter.get("/get/:cartId", cartController.getcart);
 cartRouter.post("/create", [verifyAuth, verifyUser], cartController.create);
 cartRouter.put(
-  "/update/:cartId",
+  "/additem/:cartId",
   [verifyAuth, verifyUser],
-  cartController.update
+  cartController.addToCart
+);
+cartRouter.delete(
+  "/removeitem/:cartId",
+  [verifyAuth, verifyUser],
+  cartController.removeItem
 );
 cartRouter.delete(
   "/delete/:cartId",
